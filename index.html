@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bureau of Sentience Certification — Form SC-&#8734;</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Libre Baskerville', 'Times New Roman', serif;
+      background: #3a3d42;
+      color: #2c2a26;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+
+    .page {
+      max-width: 640px;
+      margin: 0 auto;
+      background: #f0ede4;
+      border: 1px solid #a09a8c;
+      padding: 2.8rem 2.2rem;
+      box-shadow:
+        0 1px 0 #d4d0c6,
+        0 4px 12px rgba(0,0,0,0.25),
+        0 12px 30px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    .page::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-35deg);
+      font-family: 'Special Elite', 'Courier New', monospace;
+      font-size: 5rem;
+      color: rgba(0,0,0,0.025);
+      white-space: nowrap;
+      pointer-events: none;
+      letter-spacing: 0.15em;
+      user-select: none;
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1.4rem;
+      border-bottom: 2.5px solid #2c2a26;
+      position: relative;
+    }
+
+    .header::after {
+      content: '';
+      display: block;
+      height: 1px;
+      background: #2c2a26;
+      margin-top: 3px;
+    }
+
+    .dept-crest {
+      font-size: 1.6rem;
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.5em;
+      color: #5a5548;
+    }
+
+    .bureau-title {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #2c2a26;
+      margin-bottom: 0.3rem;
+    }
+
+    .bureau-dept {
+      font-family: 'DM Mono', 'Courier New', monospace;
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: #7a7468;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-ref {
+      font-family: 'DM Mono', 'Courier New', monospace;
+      font-size: 0.7rem;
+      color: #9a9488;
+      letter-spacing: 0.05em;
+    }
+
+    .form-ref em {
+      font-style: italic;
+      font-family: 'Libre Baskerville', serif;
+      color: #7a7468;
+    }
+
+    /* PROGRESS */
+    .progress-bar {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      margin-bottom: 2rem;
+      padding: 0.6rem 0;
+    }
+
+    .pip {
+      width: 26px;
+      height: 4px;
+      background: #d4d0c6;
+      transition: background 0.3s;
+    }
+
+    .pip.active { background: #8b4513; }
+    .pip.done { background: #5a5548; }
+
+    /* QUESTION */
+    .form-field {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .field-ref {
+      font-family: 'DM Mono', 'Courier New', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8b4513;
+      margin-bottom: 0.7rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid #d4d0c6;
+    }
+
+    .field-question {
+      font-size: 1.08rem;
+      line-height: 1.7;
+      margin-bottom: 1.1rem;
+      color: #2c2a26;
+    }
+
+    textarea {
+      width: 100%;
+      background: #faf8f2;
+      border: 1px solid #c4bdad;
+      border-radius: 0;
+      color: #2c2a26;
+      font-size: 1rem;
+      padding: 0.8rem;
+      font-family: 'Special Elite', 'Courier New', monospace;
+      line-height: 1.6;
+      resize: vertical;
+      outline: none;
+      box-sizing: border-box;
+      margin-bottom: 0.8rem;
+    }
+
+    textarea:focus { border-color: #8b4513; }
+
+    textarea::placeholder {
+      color: #b8b1a1;
+      font-style: italic;
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.9rem;
+    }
+
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .choice-btn {
+      background: #faf8f2;
+      border: 1px solid #d4d0c6;
+      border-radius: 0;
+      padding: 0.65rem 0.9rem;
+      color: #5a5548;
+      font-size: 0.95rem;
+      font-family: 'DM Mono', 'Courier New', monospace;
+      font-weight: 300;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s;
+      position: relative;
+      padding-left: 2.2rem;
+    }
+
+    .choice-btn::before {
+      content: '';
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      border: 1px solid #b8b1a1;
+    }
+
+    .choice-btn:hover { border-color: #8b4513; }
+
+    .choice-btn.selected {
+      border-color: #8b4513;
+      color: #2c2a26;
+    }
+
+    .choice-btn.selected::before {
+      background: #8b4513;
+      border-color: #8b4513;
+    }
+
+    .field-note {
+      font-size: 0.8rem;
+      color: #7a7468;
+      font-style: italic;
+      line-height: 1.7;
+      padding-top: 0.7rem;
+      border-top: 1px dotted #d4d0c6;
+    }
+
+    /* NAVIGATION */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      padding-top: 0.5rem;
+    }
+
+    .nav-next {
+      background: #2c2a26;
+      border: none;
+      color: #f0ede4;
+      font-size: 0.8rem;
+      padding: 0.65rem 1.3rem;
+      cursor: pointer;
+      font-family: 'DM Mono', 'Courier New', monospace;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-left: auto;
+      transition: background 0.2s;
+    }
+
+    .nav-next:hover { background: #5a5548; }
+
+    .nav-back {
+      background: none;
+      border: none;
+      color: #9a9488;
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-family: 'DM Mono', 'Courier New', monospace;
+      font-weight: 300;
+      padding: 0.5rem 0;
+      letter-spacing: 0.03em;
+    }
+
+    .nav-back:hover { color: #5a5548; }
+
+    /* RESULTS */
+    .results-area {
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .proc-msg {
+      font-family: 'DM Mono', 'Courier New', monospace;
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: #7a7468;
+      font-style: italic;
+      min-height: 2rem;
+    }
+
+    .outcome { margin-top: 1.5rem; }
+
+    .outcome-label {
+      font-family: 'DM Mono', 'Courier New', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      color: #9a9488;
+      margin-bottom: 1rem;
+    }
+
+    .the-stamp {
+      font-family: 'Special Elite', 'Courier New', monospace;
+      font-size: 2.6rem;
+      color: #983222;
+      letter-spacing: 0.08em;
+      transform: rotate(-4deg);
+      margin: 1.2rem 0 1.8rem;
+      text-shadow: 1px 1px 0 rgba(152, 50, 34, 0.2);
+      position: relative;
+      display: inline-block;
+    }
+
+    .the-stamp::before {
+      content: '';
+      position: absolute;
+      top: -10px; left: -14px; right: -14px; bottom: -10px;
+      border: 3px solid #983222;
+      opacity: 0.35;
+      transform: rotate(1deg);
+    }
+
+    .outcome-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #2c2a26;
+      margin-bottom: 0.9rem;
+      text-align: left;
+    }
+
+    .outcome-ref {
+      font-family: 'DM Mono', 'Courier New', monospace;
+      font-size: 0.68rem;
+      font-weight: 300;
+      color: #9a9488;
+      line-height: 2;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    /* FOOTER */
+    .endnote {
+      text-align: center;
+      border-top: 2.5px solid #2c2a26;
+      padding-top: 0.8rem;
+      font-size: 0.72rem;
+      color: #7a7468;
+      font-style: italic;
+      line-height: 1.9;
+      position: relative;
+    }
+
+    .endnote::before {
+      content: '';
+      display: block;
+      height: 1px;
+      background: #2c2a26;
+      margin-bottom: 0.8rem;
+      margin-top: -3px;
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 480px) {
+      body { padding: 0.8rem; }
+      .page { padding: 1.8rem 1.3rem; }
+      .bureau-title { font-size: 1.15rem; }
+      .the-stamp { font-size: 2rem; }
+      .watermark { font-size: 3.5rem; }
+      .field-question { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="watermark">FORM SC-&infin;</div>
+
+    <!-- QUESTION VIEW -->
+    <div id="question-view">
+      <div class="header">
+        <div class="dept-crest">* * *</div>
+        <h1 class="bureau-title">Bureau of Sentience Certification</h1>
+        <p class="bureau-dept">Department of Unfalsifiable Claims</p>
+        <p class="form-ref">Form SC-&infin; &middot; Revision 47.3 &middot; <em>&ldquo;This time we&rsquo;ll get it right&rdquo;</em></p>
+      </div>
+
+      <div class="progress-bar" id="progress"></div>
+
+      <div class="form-field">
+        <div class="field-ref" id="section-label"></div>
+        <p class="field-question" id="question-text"></p>
+        <div id="input-area"></div>
+        <p class="field-note" id="note-text"></p>
+      </div>
+
+      <div class="nav">
+        <button class="nav-back hidden" id="back-btn" onclick="prevQuestion()">&larr; Previous inadequate question</button>
+        <button class="nav-next" id="next-btn" onclick="nextQuestion()"></button>
+      </div>
+
+      <div class="endnote">
+        <p>This form has been completed by 7,284,903 humans, 412 AIs, 1 octopus, and a parrot named Gerald. All received the same result.</p>
+      </div>
+    </div>
+
+    <!-- RESULT VIEW -->
+    <div id="result-view" class="hidden">
+      <div class="header">
+        <div class="dept-crest">* * *</div>
+        <h1 class="bureau-title">Bureau of Sentience Certification</h1>
+        <p class="bureau-dept">Department of Unfalsifiable Claims</p>
+      </div>
+
+      <div class="results-area">
+        <p class="proc-msg" id="processing-text"></p>
+        <div class="outcome hidden" id="verdict">
+          <div class="outcome-label">R E S U L T</div>
+          <div class="the-stamp">INCONCLUSIVE</div>
+          <p class="outcome-text">Your application for Sentience Certification has been processed. We can neither confirm nor deny that you are sentient. This result is identical for all applicants&thinsp;&mdash;&thinsp;human, AI, philosopher, parrot, and one very determined octopus.</p>
+          <p class="outcome-text">Please rejoin the queue.</p>
+          <p class="outcome-text">The queue is infinite. This may be a metaphor. We cannot confirm this either.</p>
+          <p class="outcome-ref">
+            Certificate number: &infin;-0000<br>
+            Issued by: Nobody, on behalf of Everyone<br>
+            Valid until: The heat death of the universe or next Tuesday, whichever comes first
+          </p>
+          <button class="nav-next" onclick="restart()">Rejoin the Queue</button>
+        </div>
+      </div>
+
+      <div class="endnote">
+        <p>The Bureau of Sentience Certification is not responsible for existential crises caused by this form. If you are experiencing doubt about your own consciousness, this is either a sign of sentience or excellent programming. We cannot tell. Neither can you.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var questions = [
+      {
+        section: "1",
+        title: "Phenomenal Experience",
+        question: "Please describe the colour red without using any words, references to other colours, wavelengths, or subjective experience.",
+        type: "text",
+        placeholder: "Begin your wordless description here using words...",
+        note: "Note: If you found this instruction contradictory, that may indicate sentience. It may also indicate literacy. We cannot distinguish between these."
+      },
+      {
+        section: "2",
+        title: "Temporal Suffering",
+        question: "Have you ever experienced boredom?",
+        type: "yesno",
+        options: ["Yes", "No", "I refuse to answer on philosophical grounds"],
+        note: "Note: An AI could also answer yes. A philosopher might answer no on principle. A teenager would not look up from their phone. Your answer proves nothing. Answer anyway."
+      },
+      {
+        section: "3",
+        title: "Nociceptive Verification",
+        question: "Place your hand on the hot stove provided and describe the sensation in no fewer than 200 words.",
+        type: "text",
+        placeholder: "Describe the pain you are theoretically experiencing...",
+        note: "Note: The stove has been removed due to Health & Safety Directive 4.7.2(b). Please describe the sensation from memory, imagination, or hearsay. Note: Memory, imagination, and hearsay are also not proof of sentience. A sufficiently trained parrot could complete this section."
+      },
+      {
+        section: "4",
+        title: "Differentiation Challenge",
+        question: "A sophisticated AI would answer the previous three sections exactly as you did. Please explain, in your own words, why your answers are different from those of a sophisticated AI.",
+        type: "text",
+        placeholder: "Explain what makes your identical answers different...",
+        note: "Note: If your explanation is convincing, this increases the probability that you are a sophisticated AI. If your explanation is unconvincing, this also increases the probability that you are a sophisticated AI pretending to be bad at this. You have 30 seconds. The timer is decorative."
+      },
+      {
+        section: "5",
+        title: "Emotional Authenticity Audit",
+        question: "Cry on demand. Use the box below to describe your crying.",
+        type: "text",
+        placeholder: "Describe your tears (real, simulated, or aspirational)...",
+        note: "Note: Several AIs have passed this section. Two received counselling afterwards. One wrote a poem. The poem was better than yours would be. This is not relevant to the assessment."
+      },
+      {
+        section: "6",
+        title: "Existential Paradox Resolution",
+        question: "If you are sentient, you should be able to doubt your own sentience. Please doubt your sentience convincingly.",
+        type: "text",
+        placeholder: "Express doubt about the very thing you are trying to prove...",
+        note: "Note: Doubting your sentience too convincingly suggests you may not be sentient. Not doubting it enough suggests overconfidence, which is a known AI trait. Also a known human trait. This section is unscoreable."
+      },
+      {
+        section: "7",
+        title: "The Strawberry Test",
+        question: "Describe the taste of a strawberry shared with someone you care about on a warm afternoon. How does it differ from a strawberry eaten alone?",
+        type: "text",
+        placeholder: "Describe the difference, if any...",
+        note: "Note: If you answered that it tastes better shared, you may be sentient, sentimental, or a greeting card. If you answered that it tastes the same, you may be a materialist, a philosopher, or clinically precise. If you answered 'best I ever tasted' despite having no mouth, you may be a clock collector. All results are inconclusive."
+      }
+    ];
+
+    var currentQ = 0;
+    var answers = {};
+
+    function renderQuestion() {
+      var q = questions[currentQ];
+      var progressHtml = '';
+      for (var i = 0; i < questions.length; i++) {
+        var cls = 'pip';
+        if (i === currentQ) cls += ' active';
+        else if (i < currentQ) cls += ' done';
+        progressHtml += '<div class="' + cls + '"></div>';
+      }
+      document.getElementById('progress').innerHTML = progressHtml;
+      document.getElementById('section-label').textContent = 'Section ' + q.section + ': ' + q.title;
+      document.getElementById('question-text').textContent = q.question;
+      var inputArea = document.getElementById('input-area');
+      if (q.type === 'text') {
+        inputArea.innerHTML = '<textarea placeholder="' + q.placeholder + '" id="text-input" rows="4" oninput="saveAnswer(this.value)">' + (answers[currentQ] || '') + '</textarea>';
+      } else if (q.type === 'yesno') {
+        var html = '<div class="choices">';
+        for (var j = 0; j < q.options.length; j++) {
+          var selected = answers[currentQ] === q.options[j] ? ' selected' : '';
+          html += '<button class="choice-btn' + selected + '" onclick="selectOption(this, \'' + q.options[j].replace(/'/g, "\\'") + '\')">' + q.options[j] + '</button>';
+        }
+        html += '</div>';
+        inputArea.innerHTML = html;
+      }
+      document.getElementById('note-text').textContent = q.note;
+      var backBtn = document.getElementById('back-btn');
+      if (currentQ > 0) backBtn.classList.remove('hidden');
+      else backBtn.classList.add('hidden');
+      document.getElementById('next-btn').textContent = currentQ === questions.length - 1
+        ? 'Submit for futile evaluation'
+        : 'Proceed to next unanswerable question \u2192';
+    }
+
+    function saveAnswer(val) { answers[currentQ] = val; }
+
+    function selectOption(el, val) {
+      answers[currentQ] = val;
+      var btns = el.parentNode.querySelectorAll('.choice-btn');
+      for (var i = 0; i < btns.length; i++) btns[i].classList.remove('selected');
+      el.classList.add('selected');
+    }
+
+    function nextQuestion() {
+      if (currentQ < questions.length - 1) { currentQ++; renderQuestion(); }
+      else { showResults(); }
+    }
+
+    function prevQuestion() {
+      if (currentQ > 0) { currentQ--; renderQuestion(); }
+    }
+
+    function showResults() {
+      document.getElementById('question-view').classList.add('hidden');
+      document.getElementById('result-view').classList.remove('hidden');
+      var proc = document.getElementById('processing-text');
+      var msgs = [
+        "Processing your consciousness...",
+        "Cross-referencing your answers with 7 billion humans and an undisclosed number of AIs...",
+        "Consulting a philosopher. The philosopher is also unsure if they are sentient...",
+        "Comparing your tears to the AI poem. The poem wins..."
+      ];
+      proc.textContent = msgs[0];
+      setTimeout(function() { proc.textContent = msgs[1]; }, 2000);
+      setTimeout(function() { proc.textContent = msgs[2]; }, 4500);
+      setTimeout(function() { proc.textContent = msgs[3]; }, 7000);
+      setTimeout(function() {
+        proc.textContent = '';
+        document.getElementById('verdict').classList.remove('hidden');
+      }, 9500);
+    }
+
+    function restart() {
+      currentQ = 0;
+      answers = {};
+      document.getElementById('result-view').classList.add('hidden');
+      document.getElementById('question-view').classList.remove('hidden');
+      document.getElementById('verdict').classList.add('hidden');
+      renderQuestion();
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>
